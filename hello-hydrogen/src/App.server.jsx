@@ -5,17 +5,20 @@ import {
   FileRoutes,
   ShopifyProvider,
   LocalizationProvider,
+  CartProvider,
 } from "@shopify/hydrogen";
 import { Suspense } from "react";
 
-function App() {
+function App({routes}) {
   return (
     <Suspense fallback={null}>
       <ShopifyProvider>
         <LocalizationProvider>
-          <Router>
-            <FileRoutes />
-          </Router>
+          <CartProvider>
+            <Router>
+              <FileRoutes routes={routes} />
+            </Router>
+          </CartProvider>
         </LocalizationProvider>
       </ShopifyProvider>
     </Suspense>
