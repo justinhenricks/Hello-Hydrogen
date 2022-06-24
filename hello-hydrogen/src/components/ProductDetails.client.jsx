@@ -5,8 +5,10 @@ import {
   ProductPrice,
   BuyNowButton,
   AddToCartButton,
+  useCart,
 } from "@shopify/hydrogen";
-import { useDrawer } from "./Drawer.client";
+import { CartDetails } from "./CartDetails.client";
+import { Drawer, useDrawer } from "./Drawer.client";
 
 export default function ProductDetails({ product }) {
   return (
@@ -91,15 +93,23 @@ function ProductForm({ product }) {
 function PurchaseMarkup() {
   const { selectedVariant } = useProductOptions();
   const isOutOfStock = !selectedVariant?.availableForSale || false;
-  const { openDrawer } = useDrawer();
+  const { isOpen, openDrawer, closeDrawer } = useDrawer();
+  const { totalQuantity } = useCart();
 
   const handleAddToCartClick = () => {
-    console.log('here we are');
-    openDrawer();
-  }
+    console.log("here we are");
+    if(totalQuantity < 1){
+      openDrawer();
+    }
+  };
 
   return (
     <>
+      <Drawer open={isOpen} onClose={closeDrawer}>
+        <div className="grid">
+          <CartDetails onClose={closeDrawer} />
+        </div>
+      </Drawer>
       <AddToCartButton
         variantId={selectedVariant.id}
         quantity={1}
