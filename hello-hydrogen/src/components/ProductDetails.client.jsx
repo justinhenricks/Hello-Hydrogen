@@ -97,7 +97,6 @@ function PurchaseMarkup() {
   const { totalQuantity } = useCart();
 
   const handleAddToCartClick = () => {
-    console.log("here we are");
     if(totalQuantity < 1){
       openDrawer();
     }
